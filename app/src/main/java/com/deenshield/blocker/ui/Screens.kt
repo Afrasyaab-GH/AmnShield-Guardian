@@ -1,5 +1,9 @@
 package com.deenshield.blocker.ui
 
+import android.app.Activity
+import android.content.Intent
+import android.net.VpnService
+import android.provider.Settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,47 +32,29 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import com.deenshield.blocker.model.Block
 import com.deenshield.blocker.viewmodel.BlockViewModel
 import com.deenshield.blocker.ui.components.ToggleItem
 import com.deenshield.blocker.util.BlockUtils
+import com.deenshield.blocker.service.BlockingVpnService
 import java.util.UUID
 import android.app.TimePickerDialog
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun BlocksScreen(vm: BlockViewModel) {
     val blocks = vm.blocks
     Column(Modifier.fillMaxSize().padding(16.dp)) {
-        Text("Predefined Block Lists", style = MaterialTheme.typography.titleMedium)
-        ToggleItem(
-            title = "Block harmful keywords",
-            checked = vm.blockHarmfulKeywords,
-            onChange = { vm.setBlockHarmfulKeywords(it) },
-            subtitle = "Blocks pages containing sensitive keywords"
-        )
-        ToggleItem(
-            title = "Block harmful websites",
-            checked = vm.blockHarmfulWebsites,
-            onChange = { vm.setBlockHarmfulWebsites(it) },
-            subtitle = "Blocks known adult/gambling domains"
-        )
-        ToggleItem(
-            title = "Block social media",
-            checked = vm.blockSocialMedia,
-            onChange = { vm.setBlockSocialMedia(it) },
-            subtitle = "Blocks common social platforms"
-        )
-        Divider(Modifier.padding(vertical = 8.dp))
-        ToggleItem(
-            title = "Enable blocking globally",
-            checked = vm.globalEnabled,
-            onChange = { vm.setGlobalEnabled(it) },
-            subtitle = "Master switch for all filters"
-        )
-        Divider(Modifier.padding(vertical = 8.dp))
         Text("Your Blocks", style = MaterialTheme.typography.titleMedium)
         if (blocks.isEmpty()) {
             Text("No blocks yet. Add one to get started.")
@@ -81,6 +67,38 @@ fun BlocksScreen(vm: BlockViewModel) {
                     Text("Apps: ${'$'}{b.appIds.size} • Websites: ${'$'}{b.websites.size} • Keywords: ${'$'}{b.keywords.size}")
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun ServiceControls() {
+    val ctx = LocalContext.current
+    val vpnConsentLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { res ->
+        if (res.resultCode == Activity.RESULT_OK) {
+            // Start VPN service after consent
+            val intent = Intent(ctx, BlockingVpnService::class.java)
+            ctx.startService(intent)
+        }
+    }
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text("Services", style = MaterialTheme.typography.titleMedium)
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            OutlinedButton(onClick = {
+                val prepare = VpnService.prepare(ctx)
+                if (prepare != null) {
+                    vpnConsentLauncher.launch(prepare)
+                } else {
+                    // Already has consent
+                    val intent = Intent(ctx, BlockingVpnService::class.java)
+                    ctx.startService(intent)
+                }
+            }) { Text("Enable VPN") }
+
+            OutlinedButton(onClick = {
+                val i = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                ctx.startActivity(i)
+            }) { Text("Open Accessibility Settings") }
         }
     }
 }
@@ -210,13 +228,13 @@ fun AddBlockScreen(vm: BlockViewModel) {
                 value = if (dailyInput.isEmpty()) dailyLimit.toString() else dailyInput,
                 onValueChange = { dailyInput = it; dailyLimit = it.toIntOrNull() ?: 0 },
                 label = { Text("Daily") },
-                keyboardOptions = androidx.compose.ui.text.input.KeyboardOptions(keyboardType = KeyboardType.Number)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
             OutlinedTextField(
                 value = if (hourlyInput.isEmpty()) hourlyLimit.toString() else hourlyInput,
                 onValueChange = { hourlyInput = it; hourlyLimit = it.toIntOrNull() ?: 0 },
                 label = { Text("Hourly") },
-                keyboardOptions = androidx.compose.ui.text.input.KeyboardOptions(keyboardType = KeyboardType.Number)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
         }
 
@@ -337,25 +355,30 @@ fun SettingsScreen(vm: BlockViewModel) {
     Column(Modifier.fillMaxSize().padding(16.dp)) {
         Text("Settings", style = MaterialTheme.typography.titleLarge)
         Divider(Modifier.padding(vertical = 8.dp))
+    ServiceControls()
+    Divider(Modifier.padding(vertical = 8.dp))
         ToggleItem(
             title = "Enable blocking globally",
             checked = vm.globalEnabled,
-            onChange = { vm.setGlobalEnabled(it) }
+            onChange = { vm.updateGlobalEnabled(it) }
         )
         ToggleItem(
             title = "Block harmful keywords",
             checked = vm.blockHarmfulKeywords,
-            onChange = { vm.setBlockHarmfulKeywords(it) }
+            onChange = { vm.updateBlockHarmfulKeywords(it) }
         )
         ToggleItem(
             title = "Block harmful websites",
             checked = vm.blockHarmfulWebsites,
-            onChange = { vm.setBlockHarmfulWebsites(it) }
+            onChange = { vm.updateBlockHarmfulWebsites(it) }
         )
         ToggleItem(
             title = "Block social media",
             checked = vm.blockSocialMedia,
-            onChange = { vm.setBlockSocialMedia(it) }
+            onChange = { vm.updateBlockSocialMedia(it) }
         )
     }
 }
+
+@Composable fun UsageScreen() { Text("Usage") }
+@Composable fun ReportsScreen() { Text("Reports") }

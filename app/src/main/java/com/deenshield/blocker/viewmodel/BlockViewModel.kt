@@ -36,10 +36,10 @@ class BlockViewModel : ViewModel() {
         }
     }
 
-    fun setBlockHarmfulKeywords(v: Boolean) { blockHarmfulKeywords = v }
-    fun setBlockHarmfulWebsites(v: Boolean) { blockHarmfulWebsites = v }
-    fun setBlockSocialMedia(v: Boolean) { blockSocialMedia = v }
-    fun setGlobalEnabled(v: Boolean) { globalEnabled = v }
+    fun updateBlockHarmfulKeywords(v: Boolean) { blockHarmfulKeywords = v }
+    fun updateBlockHarmfulWebsites(v: Boolean) { blockHarmfulWebsites = v }
+    fun updateBlockSocialMedia(v: Boolean) { blockSocialMedia = v }
+    fun updateGlobalEnabled(v: Boolean) { globalEnabled = v }
 
     fun addBlock(b: Block) {
         _blocks.add(0, b)

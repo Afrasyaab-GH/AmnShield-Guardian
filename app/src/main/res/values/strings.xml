@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DeenShield Blocker</string>
+    <string name="accessibility_service_description">Blocks selected apps by redirecting to home</string>
+</resources>

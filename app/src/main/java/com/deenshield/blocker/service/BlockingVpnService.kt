@@ -1,60 +1,380 @@
 package com.deenshield.blocker.service
 
+import android.app.Notification
+import android.app.PendingIntent
+import android.content.Intent
 import android.net.VpnService
 import android.os.ParcelFileDescriptor
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import androidx.core.app.NotificationCompat
+import com.deenshield.blocker.BlockerApplication
+import com.deenshield.blocker.MainActivity
+import com.deenshield.blocker.R
+import com.deenshield.blocker.network.ContentFilter
+import com.deenshield.blocker.network.PacketParser
+import com.deenshield.blocker.network.DnsProxy
+import com.deenshield.blocker.util.BlockUtils
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.nio.ByteBuffer
+import javax.inject.Inject
+import java.net.InetAddress
 
 /**
- * Local-only VPNService placeholder. Real packet parsing is complex; this scaffolds
- * a tun interface and a loop where DNS/HTTP inspection can be added later.
- * No external network calls, on-device only.
+ * Enhanced VPN Service with real-time packet inspection and content filtering
+ * Provides deep packet inspection similar to NetSpark's dynamic filtering
  */
+@AndroidEntryPoint
 class BlockingVpnService : VpnService() {
-    private var tun: ParcelFileDescriptor? = null
-    private val scope = CoroutineScope(Dispatchers.IO)
-    private var job: Job? = null
-
+    
+    @Inject
+    lateinit var contentFilter: ContentFilter
+    
+    private var vpnInterface: ParcelFileDescriptor? = null
+    private var inputStream: FileInputStream? = null
+    private var outputStream: FileOutputStream? = null
+    private val serviceScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private var processingJob: Job? = null
+    
+    private val packetParser = PacketParser()
+    private val packetBuffer = ByteBuffer.allocate(65536) // 64KB buffer
+    private val dnsProxy = DnsProxy()
+    
+    // Statistics
+    private var packetsProcessed = 0L
+    private var packetsBlocked = 0L
+    private var bytesProcessed = 0L
+    
     // Predefined block lists (populate from repository or preferences)
-    @Volatile var blockedDomains: Set<String> = emptySet()
-
-    internal fun shouldBlockDomain(host: String): Boolean {
-        // Simple check; real path would parse DNS queries or TLS SNI and pass here
-        val normalized = com.deenshield.blocker.util.BlockUtils.normalizeDomain(host)
-        return com.deenshield.blocker.util.BlockUtils.matchDomain(blockedDomains, normalized)
-    }
+    @Volatile
+    var blockedDomains: Set<String> = emptySet()
+        private set
+    
+    @Volatile
+    var isActive: Boolean = false
+        private set
 
     override fun onCreate() {
         super.onCreate()
+        setupNotificationObserver()
     }
 
-    override fun onStartCommand(intent: android.content.Intent?, flags: Int, startId: Int): Int {
-        // Build TUN interface
-        if (tun == null) {
-            tun = Builder()
-                .addAddress("10.0.0.2", 24)
-                .setSession("DeenShield Local VPN")
-                .establish()
-        }
-        if (job == null) {
-            job = scope.launch { runLoop() }
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        when (intent?.action) {
+            ACTION_START -> startVpnService()
+            ACTION_STOP -> stopVpnService()
+            ACTION_UPDATE_CONFIG -> updateConfiguration(intent)
         }
         return START_STICKY
     }
+    
+    private fun startVpnService() {
+        if (isActive) return
+        
+        try {
+            // Build TUN interface with comprehensive routing
+            vpnInterface = Builder()
+                .setSession("DeenShield DNS Filter")
+                .setMtu(1500)
+                .addAddress("10.0.0.2", 24) // VPN interface IP
+                // Only route DNS server IPs through VPN to intercept DNS
+                .addRoute("1.1.1.1", 32)
+                .addRoute("8.8.8.8", 32)
+                .addDnsServer("1.1.1.1")
+                .addDnsServer("8.8.8.8")
+                .setBlocking(false)
+                .establish()
+            
+            vpnInterface?.let { vpn ->
+                inputStream = FileInputStream(vpn.fileDescriptor)
+                outputStream = FileOutputStream(vpn.fileDescriptor)
+                
+                isActive = true
+                startForeground(NOTIFICATION_ID, createNotification())
+                
+                // Start packet processing
+                processingJob = serviceScope.launch {
+                    processPackets()
+                }
+                
+                android.util.Log.i("BlockingVpnService", "VPN service started successfully")
+            }
+            
+        } catch (e: Exception) {
+            android.util.Log.e("BlockingVpnService", "Failed to start VPN service", e)
+            stopVpnService()
+        }
+    }
+    
+    private fun stopVpnService() {
+        isActive = false
+        
+        processingJob?.cancel()
+        processingJob = null
+        
+        inputStream?.close()
+        outputStream?.close()
+        vpnInterface?.close()
+        
+        inputStream = null
+        outputStream = null
+        vpnInterface = null
+        
+        stopForeground(STOP_FOREGROUND_REMOVE)
+        stopSelf()
+        
+        android.util.Log.i("BlockingVpnService", "VPN service stopped")
+    }
+    
+    private suspend fun processPackets() = withContext(Dispatchers.IO) {
+        val input = inputStream ?: return@withContext
+        val output = outputStream ?: return@withContext
+        
+        try {
+            while (isActive && !currentCoroutineContext().isActive.not()) {
+                try {
+                    // Read packet from TUN interface
+                    packetBuffer.clear()
+                    val bytesRead = input.read(packetBuffer.array())
+                    
+                    if (bytesRead > 0) {
+                        packetBuffer.limit(bytesRead)
+                        bytesProcessed += bytesRead
+                        packetsProcessed++
+                        
+                        // Parse IP packet
+                        val packet = packetParser.parseIpPacket(packetBuffer)
+                        
+                        if (packet != null) {
+                            // Handle DNS packets specially (UDP/53)
+                            if (packet.protocol == PacketParser.PROTOCOL_UDP && packet.destinationPort == PacketParser.DNS_PORT) {
+                                val dnsResponse = dnsProxy.processDnsQuery(packet.payload, blockedDomains)
+                                if (dnsResponse != null) {
+                                    // Send DNS response back to requester
+                                    val respPacket = buildIpv4UdpResponse(packet, dnsResponse)
+                                    if (respPacket != null) {
+                                        output.write(respPacket)
+                                        bytesProcessed += respPacket.size
+                                        if (dnsResponse !== packet.payload) packetsBlocked++
+                                        continue
+                                    }
+                                }
+                            }
 
-    private suspend fun runLoop() {
-        // NOTE: This is a stub; real implementation would parse IP packets from tun!!.fileDescriptor
-        // For now, this just idles. Hook your DNS matching (DoH inside app if desired) or SNI parsing for TLS.
-        while (tun != null) {
-            kotlinx.coroutines.delay(1000)
+                            // Analyze packet for other threats
+                            val shouldBlock = analyzePacket(packet)
+                            
+                            if (shouldBlock) {
+                                packetsBlocked++
+                                // Drop packet by not forwarding it
+                                android.util.Log.d("BlockingVpnService", 
+                                    "Blocked packet to ${packet.destinationAddress}")
+                            } else {
+                                // Forward packet
+                                packetBuffer.rewind()
+                                output.write(packetBuffer.array(), 0, bytesRead)
+                            }
+                        } else {
+                            // Forward unknown packets
+                            packetBuffer.rewind()
+                            output.write(packetBuffer.array(), 0, bytesRead)
+                        }
+                        
+                        // Update UI every 100 packets
+                        if (packetsProcessed % 100 == 0L) {
+                            updateNotification()
+                        }
+                        
+                    }
+                } catch (e: Exception) {
+                    if (isActive) {
+                        android.util.Log.w("BlockingVpnService", "Error processing packet", e)
+                        delay(10) // Brief pause on error
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("BlockingVpnService", "Packet processing loop failed", e)
+        }
+    }
+    
+    private suspend fun analyzePacket(packet: com.deenshield.blocker.network.IpPacket): Boolean {
+        // Process packet through content filter
+        contentFilter.processPacket(packet)
+        
+        // Check DNS queries
+        val dnsQuery = packetParser.parseDnsQuery(packet)
+        if (dnsQuery != null) {
+            val result = contentFilter.shouldBlockDns(dnsQuery)
+            if (result.shouldBlock) {
+                return true
+            }
+        }
+        
+        // Check HTTP requests
+        val httpRequest = packetParser.parseHttpRequest(packet)
+        if (httpRequest != null) {
+            val result = contentFilter.shouldBlockHttp(httpRequest)
+            if (result.shouldBlock) {
+                return true
+            }
+        }
+        
+        // Legacy domain blocking for compatibility
+        if (shouldBlockDomain(packet.destinationAddress)) {
+            return true
+        }
+        
+        return false
+    }
+    
+    // Legacy method for compatibility
+    internal fun shouldBlockDomain(host: String): Boolean {
+        val normalized = BlockUtils.normalizeDomain(host)
+        return BlockUtils.matchDomain(blockedDomains, normalized)
+    }
+
+    // For unit tests and debug tools
+    @androidx.annotation.VisibleForTesting
+    fun setBlockedDomainsForTesting(domains: Set<String>) {
+        blockedDomains = domains
+        contentFilter.updateConfiguration(domains = domains)
+    }
+    
+    private fun updateConfiguration(intent: Intent) {
+        val domains = intent.getStringArrayExtra(EXTRA_BLOCKED_DOMAINS)
+        if (domains != null) {
+            blockedDomains = domains.toSet()
+            contentFilter.updateConfiguration(domains = blockedDomains)
+        }
+        
+        val blockSocialMedia = intent.getBooleanExtra(EXTRA_BLOCK_SOCIAL_MEDIA, false)
+        val blockAdultContent = intent.getBooleanExtra(EXTRA_BLOCK_ADULT_CONTENT, false)
+        val blockGambling = intent.getBooleanExtra(EXTRA_BLOCK_GAMBLING, false)
+        
+        contentFilter.updateConfiguration(
+            socialMedia = blockSocialMedia,
+            adultContent = blockAdultContent,
+            gambling = blockGambling
+        )
+    }
+    
+    private fun setupNotificationObserver() {
+        serviceScope.launch {
+            contentFilter.blockEvents.collect { event ->
+                // Handle block events for notifications/logging
+                sendBlockNotification(event)
+            }
+        }
+    }
+    
+    private fun sendBlockNotification(event: com.deenshield.blocker.network.BlockEvent) {
+        // Create notification for blocked content
+        val notification = NotificationCompat.Builder(this, BlockerApplication.BLOCKING_CHANNEL_ID)
+            .setContentTitle("Content Blocked")
+            .setContentText("${event.category}: ${event.domain}")
+            .setSmallIcon(R.drawable.ic_block)
+            .setAutoCancel(true)
+            .build()
+        
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as android.app.NotificationManager
+        notificationManager.notify(event.timestamp.toInt(), notification)
+    }
+    
+    private fun createNotification(): Notification {
+        val intent = Intent(this, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0, intent, 
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        
+        return NotificationCompat.Builder(this, BlockerApplication.SERVICE_CHANNEL_ID)
+            .setContentTitle("DeenShield Protection Active")
+            .setContentText("Filtering network traffic")
+            .setSmallIcon(R.drawable.ic_shield)
+            .setContentIntent(pendingIntent)
+            .setOngoing(true)
+            .build()
+    }
+    
+    private fun updateNotification() {
+        val notification = NotificationCompat.Builder(this, BlockerApplication.SERVICE_CHANNEL_ID)
+            .setContentTitle("DeenShield Protection Active")
+            .setContentText("Processed: $packetsProcessed | Blocked: $packetsBlocked")
+            .setSmallIcon(R.drawable.ic_shield)
+            .setOngoing(true)
+            .build()
+        
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as android.app.NotificationManager
+        notificationManager.notify(NOTIFICATION_ID, notification)
+    }
+
+    private fun buildIpv4UdpResponse(request: com.deenshield.blocker.network.IpPacket, udpPayload: ByteArray): ByteArray? {
+        // Minimal IPv4 + UDP response builder; not fully RFC-compliant but adequate for MVP testing.
+        try {
+            val ipHeaderLen = 20
+            val udpHeaderLen = 8
+            val totalLen = ipHeaderLen + udpHeaderLen + udpPayload.size
+            val buffer = ByteBuffer.allocate(totalLen)
+
+            // IPv4 header
+            buffer.put(((4 shl 4) or 5).toByte()) // Version=4, IHL=5
+            buffer.put(0x00) // DSCP/ECN
+            buffer.putShort(totalLen.toShort())
+            buffer.putShort(0) // Identification
+            buffer.putShort(0x4000.toShort()) // Flags/Fragment (DF)
+            buffer.put(64) // TTL
+            buffer.put(PacketParser.PROTOCOL_UDP.toByte())
+            buffer.putShort(0) // checksum placeholder
+            val src = InetAddress.getByName(request.destinationAddress).address
+            val dst = InetAddress.getByName(request.sourceAddress).address
+            buffer.put(src)
+            buffer.put(dst)
+
+            // Compute IPv4 header checksum
+            buffer.rewind()
+            var sum = 0L
+            repeat(10) { i ->
+                val word = if (i == 5) 0 else buffer.short.toInt() and 0xFFFF
+                sum += word
+            }
+            while ((sum shr 16) != 0L) sum = (sum and 0xFFFF) + (sum shr 16)
+            val ipChecksum = (sum.inv().toInt() and 0xFFFF).toShort()
+            buffer.position(10)
+            buffer.putShort(ipChecksum)
+
+            // UDP header
+            buffer.position(ipHeaderLen)
+            buffer.putShort(request.destinationPort.toShort()) // src port = original dst port
+            buffer.putShort(request.sourcePort.toShort()) // dst port = original src port
+            buffer.putShort((udpHeaderLen + udpPayload.size).toShort())
+            buffer.putShort(0) // checksum (optional for IPv4)
+            buffer.put(udpPayload)
+
+            return buffer.array()
+        } catch (e: Exception) {
+            android.util.Log.w("BlockingVpnService", "Failed to build UDP response", e)
+            return null
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        job?.cancel(); job = null
-        tun?.close(); tun = null
+        stopVpnService()
+        serviceScope.cancel()
+    }
+    
+    companion object {
+        private const val NOTIFICATION_ID = 1001
+        
+        const val ACTION_START = "com.deenshield.blocker.vpn.START"
+        const val ACTION_STOP = "com.deenshield.blocker.vpn.STOP"
+        const val ACTION_UPDATE_CONFIG = "com.deenshield.blocker.vpn.UPDATE_CONFIG"
+        
+        const val EXTRA_BLOCKED_DOMAINS = "blocked_domains"
+        const val EXTRA_BLOCK_SOCIAL_MEDIA = "block_social_media"
+        const val EXTRA_BLOCK_ADULT_CONTENT = "block_adult_content"
+        const val EXTRA_BLOCK_GAMBLING = "block_gambling"
     }
 }

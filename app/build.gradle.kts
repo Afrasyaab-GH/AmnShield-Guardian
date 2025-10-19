@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.kotlin.kapt")
     id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.serialization")
@@ -73,8 +74,7 @@ dependencies {
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.material3:material3-adaptive")
-    implementation("androidx.compose.material3:material3-adaptive-navigation-suite")
+    implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.runtime:runtime-livedata")
     
     // Material Components for Android
@@ -120,7 +120,6 @@ dependencies {
     // ML Kit and AI
     implementation("com.google.mlkit:text-recognition:16.0.1")
     implementation("com.google.mlkit:language-id:17.0.6")
-    implementation("com.google.android.gms:play-services-mlkit-text-recognition:19.1.0")
     
     // Biometrics
     implementation("androidx.biometric:biometric:1.2.0-alpha05")

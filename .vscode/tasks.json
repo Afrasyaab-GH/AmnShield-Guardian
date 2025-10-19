@@ -1,0 +1,30 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "assembleDebug after UI polish",
+			"type": "shell",
+			"command": ".\\gradlew.bat",
+			"args": [
+				":app:assembleDebug",
+				"--no-daemon",
+				"--stacktrace"
+			],
+			"problemMatcher": [
+				"$gradle-lang"
+			],
+			"group": "build"
+		},
+		{
+			"label": "assembleDebug after UI polish",
+			"type": "shell",
+			"command": ".\\gradlew.bat",
+			"args": [
+				":app:assembleDebug",
+				"--no-daemon",
+				"--stacktrace"
+			],
+			"group": "build"
+		}
+	]
+}

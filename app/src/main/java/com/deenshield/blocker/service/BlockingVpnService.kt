@@ -57,6 +57,16 @@ class BlockingVpnService : VpnService() {
 
     override fun onCreate() {
         super.onCreate()
+        
+        // Initialize content filter with default block lists
+        contentFilter.updateConfiguration(
+            domains = com.deenshield.blocker.util.BlockLists.harmfulWebsites,
+            keywords = com.deenshield.blocker.util.BlockLists.harmfulKeywords,
+            socialMedia = false,
+            adultContent = true,
+            gambling = true
+        )
+        
         setupNotificationObserver()
     }
 
@@ -75,14 +85,15 @@ class BlockingVpnService : VpnService() {
         try {
             // Build TUN interface with comprehensive routing
             vpnInterface = Builder()
-                .setSession("DeenShield DNS Filter")
+                .setSession("DeenShield Protection")
                 .setMtu(1500)
                 .addAddress("10.0.0.2", 24) // VPN interface IP
-                // Only route DNS server IPs through VPN to intercept DNS
-                .addRoute("1.1.1.1", 32)
-                .addRoute("8.8.8.8", 32)
-                .addDnsServer("1.1.1.1")
+                // Route ALL traffic through VPN for proper filtering
+                .addRoute("0.0.0.0", 0)
                 .addDnsServer("8.8.8.8")
+                .addDnsServer("8.8.4.4")
+                // Allow our own package to bypass VPN to prevent loops
+                .addDisallowedApplication(packageName)
                 .setBlocking(false)
                 .establish()
             
@@ -244,20 +255,29 @@ class BlockingVpnService : VpnService() {
     
     private fun updateConfiguration(intent: Intent) {
         val domains = intent.getStringArrayExtra(EXTRA_BLOCKED_DOMAINS)
-        if (domains != null) {
-            blockedDomains = domains.toSet()
-            contentFilter.updateConfiguration(domains = blockedDomains)
+        val blockSocialMedia = intent.getBooleanExtra(EXTRA_BLOCK_SOCIAL_MEDIA, false)
+        val blockAdultContent = intent.getBooleanExtra(EXTRA_BLOCK_ADULT_CONTENT, true)
+        val blockGambling = intent.getBooleanExtra(EXTRA_BLOCK_GAMBLING, true)
+        
+        // Merge custom domains with default harmful websites
+        val mergedDomains = if (domains != null) {
+            (domains.toSet() + com.deenshield.blocker.util.BlockLists.harmfulWebsites)
+        } else {
+            com.deenshield.blocker.util.BlockLists.harmfulWebsites
         }
         
-        val blockSocialMedia = intent.getBooleanExtra(EXTRA_BLOCK_SOCIAL_MEDIA, false)
-        val blockAdultContent = intent.getBooleanExtra(EXTRA_BLOCK_ADULT_CONTENT, false)
-        val blockGambling = intent.getBooleanExtra(EXTRA_BLOCK_GAMBLING, false)
+        blockedDomains = mergedDomains
         
         contentFilter.updateConfiguration(
+            domains = mergedDomains,
+            keywords = com.deenshield.blocker.util.BlockLists.harmfulKeywords,
             socialMedia = blockSocialMedia,
             adultContent = blockAdultContent,
             gambling = blockGambling
         )
+        
+        android.util.Log.i("BlockingVpnService", 
+            "Configuration updated: ${mergedDomains.size} domains, social=$blockSocialMedia")
     }
     
     private fun setupNotificationObserver() {

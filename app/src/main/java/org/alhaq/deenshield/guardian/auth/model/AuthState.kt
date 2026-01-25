@@ -1,0 +1,98 @@
+package org.alhaq.deenshield.guardian.auth.model
+
+/**
+ * Represents the current authentication state of the user.
+ * Used by AuthViewModel and UI to display appropriate screens.
+ */
+sealed class AuthState {
+    /**
+     * User has never logged in; show first-launch experience.
+     */
+    object Unauthenticated : AuthState()
+
+    /**
+     * User is in the process of selecting identity mode.
+     */
+    object SelectingIdentityMode : AuthState()
+
+    /**
+     * User is creating a local account.
+     */
+    object CreatingLocalAccount : AuthState()
+
+    /**
+     * User is entering email for registration/login.
+     */
+    object EnteringEmail : AuthState()
+
+    /**
+     * User is verifying their email.
+     */
+    object VerifyingEmail : AuthState()
+
+    /**
+     * User is entering password.
+     */
+    object EnteringPassword : AuthState()
+
+    /**
+     * User is viewing device ID pairing screen.
+     */
+    object PairingDeviceId : AuthState()
+
+    /**
+     * Background operation in progress.
+     */
+    object Loading : AuthState()
+
+    /**
+     * User is authenticated and fully set up.
+     */
+    data class Authenticated(
+        val identityMode: IdentityMode,
+        val userId: String?,                    // Email or username; null if NO_IDENTITY
+        val deviceId: String?,                  // Device UUID; set for all modes
+        val lastLogin: Long = System.currentTimeMillis()
+    ) : AuthState()
+
+    /**
+     * Error during authentication process.
+     */
+    data class Error(
+        val message: String,
+        val exception: Exception? = null,
+        val recoverable: Boolean = true         // Can user try again?
+    ) : AuthState()
+}
+
+/**
+ * Represents the UI context for the authentication flow.
+ */
+data class AuthUiContext(
+    val currentState: AuthState = AuthState.Unauthenticated,
+    val selectedIdentityMode: IdentityMode? = null,
+    val enteredUsername: String = "",
+    val enteredEmail: String = "",
+    val isLoading: Boolean = false,
+    val showPassword: Boolean = false,
+    val grantedCapabilities: List<String> = emptyList(),
+    val pendingCapabilities: List<GuardianCapability> = emptyList()
+)
+
+/**
+ * Represents a specific authentication error.
+ */
+sealed class AuthError(override val message: String) : Exception(message) {
+    data class InvalidUsername(override val message: String) : AuthError(message)
+    data class InvalidPassword(override val message: String) : AuthError(message)
+    data class WeakPassword(override val message: String) : AuthError(message)
+    data class InvalidEmail(override val message: String) : AuthError(message)
+    data class EmailNotVerified(override val message: String) : AuthError(message)
+    data class AccountNotFound(override val message: String) : AuthError(message)
+    data class DuplicateAccount(override val message: String) : AuthError(message)
+    data class NetworkError(override val message: String) : AuthError(message)
+    data class StorageError(override val message: String) : AuthError(message)
+    data class CryptographyError(override val message: String) : AuthError(message)
+    data class TokenError(override val message: String) : AuthError(message)
+    data class UnknownError(override val message: String, override val cause: Throwable? = null) : AuthError(message)
+}

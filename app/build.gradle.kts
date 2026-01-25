@@ -2,17 +2,17 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
-    id("org.jetbrains.kotlin.kapt")
+    id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
-    namespace = "com.deenshield.blocker"
+    namespace = "org.alhaq.deenshield.guardian"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.deenshield.blocker"
+        applicationId = "org.alhaq.deenshield.guardian"
         minSdk = 28
         targetSdk = 35
         versionCode = 2
@@ -83,18 +83,18 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     
-    // Room (offline storage)
+    // Room (offline storage) - use KSP instead of kapt for Kotlin 2.1+
     val roomVersion = "2.6.1"
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
-    kapt("androidx.room:room-compiler:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
     
-    // Dependency Injection with Hilt
-    implementation("com.google.dagger:hilt-android:2.52")
-    kapt("com.google.dagger:hilt-compiler:2.52")
+    // Dependency Injection with Hilt (use KSP)
+    implementation("com.google.dagger:hilt-android:2.54")
+    ksp("com.google.dagger:hilt-compiler:2.54")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation("androidx.hilt:hilt-work:1.2.0")
-    kapt("androidx.hilt:hilt-compiler:1.2.0")
+    ksp("androidx.hilt:hilt-compiler:1.2.0")
     
     // WorkManager for background tasks
     implementation("androidx.work:work-runtime-ktx:2.10.0")
@@ -148,13 +148,19 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
     testImplementation("androidx.room:room-testing:$roomVersion")
-    testImplementation("com.google.dagger:hilt-android-testing:2.52")
-    kaptTest("com.google.dagger:hilt-compiler:2.52")
+    testImplementation("com.google.dagger:hilt-android-testing:2.54")
+    testImplementation("androidx.test:core-ktx:1.6.1")
+    testImplementation("androidx.test.ext:junit-ktx:1.2.1")
+    testImplementation("org.robolectric:robolectric:4.11.1")
+    kspTest("com.google.dagger:hilt-compiler:2.54")
     
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    androidTestImplementation("androidx.test:core-ktx:1.6.1")
+    androidTestImplementation("androidx.test:runner:1.6.2")
+    androidTestImplementation("androidx.test:rules:1.6.1")
     androidTestImplementation(composeBom)
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    androidTestImplementation("com.google.dagger:hilt-android-testing:2.52")
-    kaptAndroidTest("com.google.dagger:hilt-compiler:2.52")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.54")
+    kspAndroidTest("com.google.dagger:hilt-compiler:2.54")
 }

@@ -9,4 +9,4 @@
 -keep @androidx.room.Dao class * { *; }
 
 # Accessibility/VPN services
--keep class com.deenshield.blocker.service.** { *; }
+-keep class org.alhaq.deenshield.guardian.service.** { *; }

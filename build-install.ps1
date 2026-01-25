@@ -48,7 +48,7 @@ Write-Host ""
 Write-Host "Success! App installed." -ForegroundColor Green
 Write-Host ""
 Write-Host "Launching app..." -ForegroundColor Yellow
-& $ADB shell monkey -p com.deenshield.blocker.debug 1
+& $ADB shell monkey -p org.alhaq.deenshield.guardian.debug 1
 
 Write-Host ""
 Write-Host "Done! Check your device." -ForegroundColor Green

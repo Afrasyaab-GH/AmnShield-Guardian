@@ -66,7 +66,7 @@
 ### Architecture Overview
 
 ```
-DeenShield Guardian Authentication Architecture
+AmnShield Guardian Authentication Architecture
 
 ┌─────────────────────────────────────────────────────┐
 │              Phase 1: Core Auth (Week 1)             │

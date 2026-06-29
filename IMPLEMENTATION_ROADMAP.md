@@ -1,11 +1,11 @@
-# DeenShield Guardian - Implementation Roadmap
+# AmnShield Guardian - Implementation Roadmap
 
 ## Overview
-Building the DeenShield Guardian ecosystem based on Optional Federation Architecture with Islamic ethical values.
+Building the AmnShield Guardian ecosystem based on Optional Federation Architecture with Islamic ethical values.
 
 ## Project Architecture
 ```
-org.alhaq.deenshield.guardian/
+org.alhaq.AmnShield.guardian/
 ├── BlockerApplication.kt           # @HiltAndroidApp; notification channels
 ├── MainActivity.kt                 # Compose entry point; navigation scaffold
 ├── auth/                           # NEW: Authentication module

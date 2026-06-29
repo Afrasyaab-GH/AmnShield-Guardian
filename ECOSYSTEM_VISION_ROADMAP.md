@@ -1,16 +1,16 @@
-# 🌍 DeenShield Ecosystem: Complete Vision & Integration Roadmap
+# 🌍 AmnShield Ecosystem: Complete Vision & Integration Roadmap
 
 ## 📊 Ecosystem Overview
 
-**DeenShield** is a comprehensive **Islamic-values-aligned** digital wellbeing and protection ecosystem for the Muslim community and wider world.
+**AmnShield** is a comprehensive **Islamic-values-aligned** digital wellbeing and protection ecosystem for the Muslim community and wider world.
 
 ```
-DeenShield Ecosystem (3 Integrated Apps + Central Management)
+AmnShield Ecosystem (3 Integrated Apps + Central Management)
 ══════════════════════════════════════════════════════════════════════
 
                     ┌─────────────────────────────────┐
                     │  Guardian (Central Management)  │
-                    │  org.alhaq.deenshield.guardian  │
+                    │  org.alhaq.AmnShield.guardian  │
                     │                                 │
                     │  ✅ Parental Control Hub        │
                     │  ✅ Organizational Policies     │
@@ -26,10 +26,10 @@ DeenShield Ecosystem (3 Integrated Apps + Central Management)
                 │                │                │
                 ▼                ▼                ▼
     ┌────────────────────┐ ┌──────────────┐ ┌──────────────┐
-    │   DeenShield App   │ │  DeenShield  │ │  DeenShield  │
+    │   AmnShield App   │ │  AmnShield  │ │  AmnShield  │
     │  (Main Protection) │ │   NetBlock   │ │   Guardian   │
     │ com.alhaq.         │ │ org.alhaq.   │ │   (Optional  │
-    │ deenshield         │ │ deenshield.  │ │    Central   │
+    │ AmnShield         │ │ AmnShield.  │ │    Central   │
     │                    │ │ netblock     │ │   Hub)       │
     │ ✅ Published       │ │              │ │              │
     │ ✅ PlayStore Ready │ │ ✅ Mature    │ │ ⏳ In Dev   │
@@ -57,7 +57,7 @@ DeenShield Ecosystem (3 Integrated Apps + Central Management)
 
 ### Tier 1: Standalone Mode (Current)
 ```
-DeenShield App
+AmnShield App
 ├─ Works 100% independently
 ├─ All features enabled offline
 ├─ Local configuration only
@@ -67,8 +67,8 @@ DeenShield App
 
 ### Tier 2: Guardian Integration (In Development)
 ```
-DeenShield App + Guardian (Optional Pairing)
-├─ DeenShield works standalone + syncs with Guardian
+AmnShield App + Guardian (Optional Pairing)
+├─ AmnShield works standalone + syncs with Guardian
 ├─ User controls sync via permissions
 ├─ Guardian configuration merged with local
 ├─ Temporary tokens (expiring, revocable)
@@ -78,7 +78,7 @@ DeenShield App + Guardian (Optional Pairing)
 
 ### Tier 3: Multi-Device Management (Planned)
 ```
-DeenShield Ecosystem (All 3 Apps + Guardian)
+AmnShield Ecosystem (All 3 Apps + Guardian)
 ├─ Centralized management across devices
 ├─ Family/organizational policies
 ├─ Optional cloud backup (encrypted)
@@ -93,10 +93,10 @@ DeenShield Ecosystem (All 3 Apps + Guardian)
 
 | Component | Status | Role | Timeline |
 |-----------|--------|------|----------|
-| **DeenShield App** | ✅ Published (PlayStore) | Main protection | Ready now |
+| **AmnShield App** | ✅ Published (PlayStore) | Main protection | Ready now |
 | **Guardian Core** | ⏳ Phase 1 Auth | Central hub | Week 1-2 |
 | **Guardian IPC** | ⏳ Phase 3-5 | App communication | Week 2-3 |
-| **DeenShield Integration** | ⏳ Phase 6-8 | App linking | Week 3-4 |
+| **AmnShield Integration** | ⏳ Phase 6-8 | App linking | Week 3-4 |
 | **NetBlock Integration** | 📋 Planned | Network control | Week 4-5 |
 | **Cloud Sync** | 📋 Phase 9+ | Optional backup | Month 2+ |
 
@@ -108,7 +108,7 @@ DeenShield Ecosystem (All 3 Apps + Guardian)
 **Definition:** Bearer of trust deserves it through transparency and strong protection
 
 **Implementation:**
-- DeenShield: Transparent encryption methods documented in code
+- AmnShield: Transparent encryption methods documented in code
 - Guardian: Clear explanation of what data is accessed
 - All three apps: No hidden data collection, full KDoc documentation
 - Ecosystem: Users see exactly what's happening
@@ -118,14 +118,14 @@ DeenShield Ecosystem (All 3 Apps + Guardian)
 LocalAccountManager.kt    - Full KDoc on PBKDF2 security
 TokenStorage.kt          - Detailed encryption documentation
 Guardian IPC             - Intent-based, auditable communication
-DeenShield Integration   - Explicit permission dialogs
+AmnShield Integration   - Explicit permission dialogs
 ```
 
 ### ✅ Rida (Consent)
 **Definition:** Everything requires explicit, informed user consent
 
 **Implementation:**
-- DeenShield: Explicit "Link Guardian" button (not automatic)
+- AmnShield: Explicit "Link Guardian" button (not automatic)
 - Guardian: Permission dialogs for each capability
 - Tokens: Explicit grant, explicit revocation
 - Configuration: User chooses what syncs
@@ -150,7 +150,7 @@ No automatic pairing, no forced integration
 
 **Evidence:**
 ```
-DeenShield: Works without Guardian
+AmnShield: Works without Guardian
 Guardian: Optional (not required)
 NetBlock: Independent (not forced)
 Ecosystem: User decides integration level
@@ -168,8 +168,8 @@ Ecosystem: User decides integration level
 **Evidence:**
 ```
 Tokens expire (90 days)
-Guardian cannot force DeenShield to block
-DeenShield cannot access Guardian data without permission
+Guardian cannot force AmnShield to block
+AmnShield cannot access Guardian data without permission
 User can disable any component
 ```
 
@@ -187,7 +187,7 @@ User can disable any component
 ```
 LocalAccountManager: Multiple password reset paths
 Guardian: Optional, user can skip integration
-DeenShield: Works offline, no cloud dependency
+AmnShield: Works offline, no cloud dependency
 All: No nagware or forced payments
 ```
 
@@ -251,7 +251,7 @@ Features:
   - Status dashboard
 ```
 
-### Phase 6-8: DeenShield App Integration (Week 3-4) 🔜 Next
+### Phase 6-8: AmnShield App Integration (Week 3-4) 🔜 Next
 ```
 Status: 📋 Ready to Start
 Timeline: 2 weeks
@@ -265,7 +265,7 @@ Deliverables:
   - Settings UI updates
 
 Integration Points:
-  DeenShield App ←→ Guardian
+  AmnShield App ←→ Guardian
   - Request capabilities
   - Receive tokens
   - Sync configuration
@@ -350,9 +350,9 @@ Guardian Room Database
     ↓
 Guardian broadcasts update via encrypted Intent
     ↓
-DeenShield App receives (verifies token)
+AmnShield App receives (verifies token)
     ↓
-DeenShield stores in EncryptedSharedPreferences
+AmnShield stores in EncryptedSharedPreferences
     ↓
 Merged with local config
     ↓
@@ -383,7 +383,7 @@ User can revoke cloud access anytime
 Goal: Protect my device from harmful content
 
 Steps:
-1. Install DeenShield App
+1. Install AmnShield App
 2. Configure local blocks (apps, keywords, etc.)
 3. Blocking active immediately
 4. Can use offline
@@ -405,9 +405,9 @@ Goal: Manage child device from my phone
 Steps:
 1. Install Guardian on parent phone
 2. Create account + configure blocks
-3. Install DeenShield on child phone
-4. Link DeenShield to Guardian
-5. Guardian-configured blocks sync to DeenShield
+3. Install AmnShield on child phone
+4. Link AmnShield to Guardian
+5. Guardian-configured blocks sync to AmnShield
 6. Parent manages from Guardian
 7. Child cannot bypass (local + Guardian blocks)
 
@@ -425,7 +425,7 @@ Goal: Protect devices in our organization
 
 Steps:
 1. Admin sets up Guardian with org policies
-2. Employees/members install DeenShield + NetBlock
+2. Employees/members install AmnShield + NetBlock
 3. Link apps to Guardian
 4. Organizational policies automatically apply
 5. Users can add personal blocks
@@ -445,9 +445,9 @@ Features:
 
 ### Journey 1: Discovery
 ```
-User discovers DeenShield on PlayStore
+User discovers AmnShield on PlayStore
          ↓
-Installs DeenShield App
+Installs AmnShield App
          ↓
 App works immediately (no setup needed)
          ↓
@@ -458,7 +458,7 @@ User decides: Continue offline OR install Guardian
 
 ### Journey 2: Local Protection
 ```
-Open DeenShield
+Open AmnShield
          ↓
 Home screen shows features
          ↓
@@ -475,7 +475,7 @@ View reports, adjust settings
 ```
 User clicks "Link Guardian" in settings
          ↓
-DeenShield checks if Guardian installed
+AmnShield checks if Guardian installed
          ↓
 If not installed:
     "Download Guardian from PlayStore?" 
@@ -489,7 +489,7 @@ User selects capabilities to grant:
     ☐ Sync Blocked Keywords
     ☐ Sync Focus Mode
          ↓
-DeenShield stores token
+AmnShield stores token
          ↓
 Integration active! 
 Status shows "Linked to Guardian ✓"
@@ -499,13 +499,13 @@ Status shows "Linked to Guardian ✓"
 ```
 User in Guardian → adds/removes blocks
          ↓
-Guardian notifies DeenShield
+Guardian notifies AmnShield
          ↓
-DeenShield syncs configuration
+AmnShield syncs configuration
          ↓
 Merged blocks active
          ↓
-User can see merged list in DeenShield UI
+User can see merged list in AmnShield UI
          ↓
 Can unlink anytime → back to local-only
 ```
@@ -523,7 +523,7 @@ Guardian/
 ├── data/                    - Room database
 └── di/                      - Dependency injection
 
-DeenShield App/
+AmnShield App/
 ├── blockers/               - Blocking logic (unchanged)
 ├── guardian_integration/   - NEW: Guardian linking
 ├── services/               - Accessibility service (enhanced)
@@ -537,15 +537,15 @@ NetBlock/
 
 ### API Contracts (Intent-Based Communication)
 
-**DeenShield App → Guardian (Request)**
+**AmnShield App → Guardian (Request)**
 ```
 Intent(ACTION_QUERY_CAPABILITIES)
-  ├─ Source: DeenShield App
+  ├─ Source: AmnShield App
   ├─ Target: Guardian
   └─ Response: List of available capabilities
 ```
 
-**Guardian → DeenShield App (Response)**
+**Guardian → AmnShield App (Response)**
 ```
 Intent(ACTION_CAPABILITY_RESPONSE)
   ├─ Capabilities: [List of GuardianCapability]
@@ -553,7 +553,7 @@ Intent(ACTION_CAPABILITY_RESPONSE)
   └─ Encrypted: true
 ```
 
-**Guardian → DeenShield App (Config Update)**
+**Guardian → AmnShield App (Config Update)**
 ```
 Broadcast(ACTION_CONFIG_UPDATED)
   ├─ UpdateType: "app_blocks" | "keywords" | etc
@@ -575,7 +575,7 @@ Broadcast(ACTION_CONFIG_UPDATED)
 - [ ] Ready for Phase 2
 
 ### Phase 6-8: Integration (Next Sprint)
-- [ ] DeenShield integration module
+- [ ] AmnShield integration module
 - [ ] Blocker updates
 - [ ] Service enhancements
 - [ ] Settings UI
@@ -642,7 +642,7 @@ Week 1-2    Phase 1: Guardian Auth (In Progress)
 Week 2-3    Phase 2: Email Auth + Phase 3-5: Permissions
             └─ Guardian enhancement
 
-Week 3-4    Phase 6-8: DeenShield App Integration 🔜 NEXT
+Week 3-4    Phase 6-8: AmnShield App Integration 🔜 NEXT
             └─ First app linked to Guardian
 
 Week 4-5    Phase 9-10: NetBlock Integration
@@ -661,8 +661,8 @@ Month 3+    Full Ecosystem Release
 
 | Document | Purpose | Location |
 |----------|---------|----------|
-| **DEENSHIELD_APP_INTEGRATION_PLAN.md** | Complete phase-by-phase plan | Guardian root |
-| **GUARDIAN_INTEGRATION_ARCHITECTURE.md** | DeenShield App architecture | DeenShield root |
+| **AmnShield_APP_INTEGRATION_PLAN.md** | Complete phase-by-phase plan | Guardian root |
+| **GUARDIAN_INTEGRATION_ARCHITECTURE.md** | AmnShield App architecture | AmnShield root |
 | **.github/copilot-instructions.md** | Full architecture spec | Both apps |
 | **IMPLEMENTATION_ROADMAP.md** | 5-week technical plan | Guardian |
 | **PHASE_1_STATUS.md** | Current progress | Guardian |
@@ -692,6 +692,6 @@ Designed for Muslim community but open to everyone. Respects family structures w
 ---
 
 **Ecosystem Status:** 🟢 **READY FOR IMPLEMENTATION**  
-**Next Phase:** Begin Phase 6 (DeenShield App Integration)  
+**Next Phase:** Begin Phase 6 (AmnShield App Integration)  
 **Timeline:** 5 weeks to complete ecosystem  
 **Vision:** Islamic-values-aligned digital wellbeing for families and communities

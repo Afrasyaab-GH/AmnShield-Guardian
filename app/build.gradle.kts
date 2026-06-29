@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "org.alhaq.deenshield.guardian"
+    namespace = "com.alhaq.amnshield.guardian"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "org.alhaq.deenshield.guardian"
+        applicationId = "com.alhaq.amnshield.guardian"
         minSdk = 28
         targetSdk = 35
         versionCode = 2
@@ -38,11 +38,13 @@ android {
         debug {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
+            // Since we suffix app ID, we should configure it accordingly
         }
     }
 
     buildFeatures {
         compose = true
+        aidl = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.15"

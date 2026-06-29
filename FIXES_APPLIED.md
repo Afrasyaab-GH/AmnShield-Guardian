@@ -1,7 +1,7 @@
-# DeenShield App - Comprehensive Fixes Applied
+# AmnShield App - Comprehensive Fixes Applied
 
 ## Overview
-Fixed critical functionality issues with the DeenShield blocking app including VPN routing, app blocking, UI improvements, and service integration.
+Fixed critical functionality issues with the AmnShield blocking app including VPN routing, app blocking, UI improvements, and service integration.
 
 ## Issues Fixed
 
@@ -13,7 +13,7 @@ Fixed critical functionality issues with the DeenShield blocking app including V
 - Added `addDisallowedApplication(packageName)` to prevent VPN loops
 - Updated DNS servers to use Google's public DNS (8.8.8.8, 8.8.4.4)
 
-**File:** `app/src/main/java/com/deenshield/blocker/service/BlockingVpnService.kt`
+**File:** `app/src/main/java/com/AmnShield/blocker/service/BlockingVpnService.kt`
 
 **Result:** VPN now intercepts all network traffic for proper content filtering.
 
@@ -28,7 +28,7 @@ Fixed critical functionality issues with the DeenShield blocking app including V
 - Added better logging for debugging
 - Improved user feedback when blocked app is accessed
 
-**File:** `app/src/main/java/com/deenshield/blocker/service/AccessibilityBlocker.kt`
+**File:** `app/src/main/java/com/AmnShield/blocker/service/AccessibilityBlocker.kt`
 
 **Result:** Users now get clear feedback when apps are blocked, with better UX.
 
@@ -44,8 +44,8 @@ Fixed critical functionality issues with the DeenShield blocking app including V
 - Connected all toggle switches to automatically update VPN configuration
 
 **Files:** 
-- `app/src/main/java/com/deenshield/blocker/viewmodel/BlockViewModel.kt`
-- `app/src/main/java/com/deenshield/blocker/MainActivity.kt`
+- `app/src/main/java/com/AmnShield/blocker/viewmodel/BlockViewModel.kt`
+- `app/src/main/java/com/AmnShield/blocker/MainActivity.kt`
 
 **Result:** Block rules are now enforced in real-time by the VPN service.
 
@@ -62,7 +62,7 @@ Fixed critical functionality issues with the DeenShield blocking app including V
 - Better layout with proper spacing and padding
 - Clear "Block X App(s)" confirmation button
 
-**File:** `app/src/main/java/com/deenshield/blocker/ui/Screens.kt`
+**File:** `app/src/main/java/com/AmnShield/blocker/ui/Screens.kt`
 
 **Result:** App selection is now intuitive and visually appealing.
 
@@ -79,7 +79,7 @@ Fixed critical functionality issues with the DeenShield blocking app including V
 - Context-aware buttons (Enable when off, Disable when on)
 - Helper functions to check VPN and Accessibility service states
 
-**File:** `app/src/main/java/com/deenshield/blocker/ui/Screens.kt`
+**File:** `app/src/main/java/com/AmnShield/blocker/ui/Screens.kt`
 
 **Result:** Users can now clearly see if protection is active and take appropriate action.
 
@@ -94,7 +94,7 @@ Fixed critical functionality issues with the DeenShield blocking app including V
 - Proper synchronization between ViewModel settings and ContentFilter
 - Configuration updates now propagate to all blocking mechanisms
 
-**File:** `app/src/main/java/com/deenshield/blocker/service/BlockingVpnService.kt`
+**File:** `app/src/main/java/com/AmnShield/blocker/service/BlockingVpnService.kt`
 
 **Result:** All blocking features now work together cohesively.
 
@@ -116,7 +116,7 @@ Fixed critical functionality issues with the DeenShield blocking app including V
 3. Select apps to block (e.g., Instagram, TikTok)
 4. Click "Block X Apps"
 5. Enable Accessibility Service (click "Open Accessibility Settings")
-6. Find "DeenShield Blocker" and enable it
+6. Find "AmnShield Blocker" and enable it
 7. Try to open a blocked app
 8. Should redirect to home with toast notification
 

@@ -22,9 +22,9 @@ data class CapabilityToken(
     @PrimaryKey
     val sessionId: String,                           // Unique UUID for this token session
 
-    val grantedBy: String,                           // Package that generated token (e.g., "com.deenshield.guardian")
+    val grantedBy: String,                           // Package that generated token (e.g., "com.amnshield.guardian")
 
-    val grantedTo: String,                           // Package that will use token (e.g., "org.alhaq.deenshield.netblock")
+    val grantedTo: String,                           // Package that will use token (e.g., "com.alhaq.deenshield.netblock")
 
     val capabilities: String,                        // JSON list of granted capability IDs: ["manage_app_access", "manage_schedules"]
 

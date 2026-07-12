@@ -1,16 +1,16 @@
-# DeenShield Guardian - AI Coding Agent Instructions
+# AmnShield Guardian - AI Coding Agent Instructions
 
 ## Project Overview
-**DeenShield Guardian** is the **central protection hub and management platform** for the DeenShield Ecosystem. It offers comprehensive online protection for parents, families, organizations, and individuals, helping them stay safe while upholding ethical Islamic values.
+**AmnShield Guardian** is the **central protection hub and management platform** for the AmnShield Ecosystem. It offers comprehensive online protection for parents, families, organizations, and individuals, helping them stay safe while upholding ethical Islamic values.
 
 ### Current Development Status (January 24, 2026)
 - **Phase 1 (Auth):** 60% complete - LocalAccountManager & TokenStorage done
 - **Phase 2-5 (Enhancement):** Planned for Week 2-3
-- **Phase 6-8 (DeenShield Integration):** Design complete, ready for implementation
+- **Phase 6-8 (AmnShield Integration):** Design complete, ready for implementation
 - **Integration Docs:** ECOSYSTEM_VISION_ROADMAP.md, DEENSHIELD_APP_INTEGRATION_PLAN.md
 
 ### Mission & Purpose
-DeenShield Guardian provides:
+AmnShield Guardian provides:
 - **Comprehensive Online Protection** - Multi-layered defense against harmful content
 - **Islamic Values Alignment** - Protection framework respecting Islamic ethics and principles
 - **Family Safety** - Parent-managed controls for children and family devices
@@ -18,9 +18,9 @@ DeenShield Guardian provides:
 - **Individual Accountability** - Self-managed blocking and productivity tools
 
 ### Ecosystem Consistency Goals
-The DeenShield Ecosystem must be:
+The AmnShield Ecosystem must be:
 - **Fully Consistent** - Unified UX, branding, and interaction patterns across all apps
-- **Fully Functional** - Every feature works reliably across Guardian, NetBlock, and DeenShield App
+- **Fully Functional** - Every feature works reliably across Guardian, NetBlock, and AmnShield App
 - **Accessible to All** - Premium protection available regardless of financial situation
 
 ### Compassionate Access Program ("I Can't Afford to Pay")
@@ -41,7 +41,7 @@ The DeenShield Ecosystem must be:
    - **App ID:** Auto-generated (for verification)
 
 4. **Proceed Button:** After pressing "Proceed":
-   - Grant **1-year free access** to ALL DeenShield platforms (Guardian, App, NetBlock premium features)
+   - Grant **1-year free access** to ALL AmnShield platforms (Guardian, App, NetBlock premium features)
    - Show confirmation with access details
    - No payment required, no verification, trust-based
 
@@ -101,8 +101,8 @@ The DeenShield Ecosystem must be:
 └─────────────────────────────────────────┘
 ```
 
-### DeenShield Ecosystem Position
-DeenShield Guardian acts as the **management center** for:
+### AmnShield Ecosystem Position
+AmnShield Guardian acts as the **management center** for:
 - **Parental Control:** Parent-managed protection for children's devices
 - **Individual Protection:** Self-managed content blocking and accountability
 - **Organizational Management:** Enterprise/school-level protection policies
@@ -111,9 +111,9 @@ DeenShield Guardian acts as the **management center** for:
 1. **Central Management Hub:** Configuration interface for ecosystem-wide protection settings
 2. **Enhanced Network Controller:** Modern Kotlin/Compose rebuild with VPN + Accessibility services for deep packet inspection and app-level blocking (no root required)
 
-### Related DeenShield Ecosystem Components
-- **DeenShield NetBlock** (Legacy Java) - Individual app-level internet/WiFi controller and access blocker. **Standalone app** that can optionally pair with Guardian for centralized management
-- **DeenShield App** (Main On-Device Protection) - Primary online protection, content filtering, blurring, and productivity features. Handles real-time content-level filtering and immoral content protection. **Standalone app** that can optionally pair with Guardian
+### Related AmnShield Ecosystem Components
+- **AmnShield NetBlock** (Legacy Java) - Individual app-level internet/WiFi controller and access blocker. **Standalone app** that can optionally pair with Guardian for centralized management
+- **AmnShield App** (Main On-Device Protection) - Primary online protection, content filtering, blurring, and productivity features. Handles real-time content-level filtering and immoral content protection. **Standalone app** that can optionally pair with Guardian
 
 ## System Architecture & Design Philosophy
 
@@ -133,8 +133,8 @@ Each app must:
 
 **What This Means:**
 - NetBlock works without Guardian installed
-- DeenShield App works without Guardian installed
-- Guardian works without NetBlock or DeenShield App installed
+- AmnShield App works without Guardian installed
+- Guardian works without NetBlock or AmnShield App installed
 - Users can install any combination
 
 #### Guardian's Role (Assistant, Not Owner)
@@ -147,7 +147,7 @@ Guardian acts as an **optional assistant**, never as an owner or controller:
 **Invalid Guardian Behavior:**
 - ❌ Requiring authentication to use other apps
 - ❌ Forcing connection before allowing NetBlock to block
-- ❌ Disabling DeenShield App if Guardian isn't installed
+- ❌ Disabling AmnShield App if Guardian isn't installed
 - ❌ Creating hard dependencies on Guardian services
 
 ### Connection Model — Permission-Based (Not Pairing)
@@ -247,10 +247,10 @@ Guardian can request permission for:
 
 #### Package Namespace Structure
 ```
-DeenShield Ecosystem
-├── com.deenshield.guardian       (Central hub - Guardian)
-├── com.deenshield.blocker        (Content filtering - DeenShield App)
-└── org.alhaq.deenshield.netblock (Network control - NetBlock)
+AmnShield Ecosystem
+├── com.amnshield.guardian       (Central hub - Guardian)
+├── com.deenshield.blocker        (Content filtering - AmnShield App)
+└── com.alhaq.deenshield.netblock (Network control - NetBlock)
 ```
 
 Each package is independently installable and maintains its own:
@@ -277,8 +277,8 @@ Apps communicate via:
 #### Token Structure
 ```kotlin
 data class CapabilityToken(
-    val grantedBy: String,           // Package that granted (e.g., "com.deenshield.guardian")
-    val grantedTo: String,           // Package that received (e.g., "org.alhaq.deenshield.netblock")
+    val grantedBy: String,           // Package that granted (e.g., "com.amnshield.guardian")
+    val grantedTo: String,           // Package that received (e.g., "com.alhaq.deenshield.netblock")
     val capabilities: Set<String>,   // ["schedule_management", "time_limits"]
     val sessionId: String,           // Unique UUID for this grant
     val createdAt: Long,            // Timestamp when granted
@@ -384,7 +384,7 @@ This architecture supports:
 - No single point of failure or control
 
 ### Integration Architecture
-- **Standalone Apps:** DeenShield and NetBlock function independently with complete features
+- **Standalone Apps:** AmnShield and NetBlock function independently with complete features
 - **Guardian as Optional Hub:** Apps can pair with Guardian when users choose full ecosystem protection
 - **Centralized Management:** When paired, Guardian provides unified configuration, parental controls, and organizational policies
 - **User Choice:** Integration is optional and user-driven. Guardian is **recommended but not forced** - users decide if they want centralized management
@@ -392,7 +392,7 @@ This architecture supports:
 ## Authentication & Connection Architecture
 
 ### Three-Step Connection Model (All Optional)
-DeenShield Guardian uses a permission-based, temporary trust model instead of permanent pairing. Users maintain autonomy at every step and can skip Guardian integration entirely.
+AmnShield Guardian uses a permission-based, temporary trust model instead of permanent pairing. Users maintain autonomy at every step and can skip Guardian integration entirely.
 
 #### **Step 1: Shared Identity (Optional)**
 **Purpose:** Establish optional user identity
@@ -412,9 +412,9 @@ DeenShield Guardian uses a permission-based, temporary trust model instead of pe
 **Purpose:** Grant specific permissions for Guardian integration
 - **Permission-Based, Not Pairing:** Guardian requests specific capabilities via permission dialogs
 - **Examples:**
-  - "Allow DeenShield Guardian to manage App Access?" (Block list sync, access control)
-  - "Allow DeenShield Guardian to manage Content Filtering?" (Filter configuration)
-  - "Allow DeenShield Guardian to manage Productivity Settings?" (Time limits, schedules)
+  - "Allow AmnShield Guardian to manage App Access?" (Block list sync, access control)
+  - "Allow AmnShield Guardian to manage Content Filtering?" (Filter configuration)
+  - "Allow AmnShield Guardian to manage Productivity Settings?" (Time limits, schedules)
 - **User Choices:**
   - **Allow:** Grant permission; app syncs with Guardian
   - **Skip:** Deny permission; app works locally only (user reminded of missing full protection benefits)

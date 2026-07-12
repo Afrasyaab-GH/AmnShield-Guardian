@@ -10,7 +10,7 @@ AmnShield Ecosystem (3 Integrated Apps + Central Management)
 
                     ┌─────────────────────────────────┐
                     │  Guardian (Central Management)  │
-                    │  org.alhaq.AmnShield.guardian  │
+                    │  com.alhaq.amnshield.guardian  │
                     │                                 │
                     │  ✅ Parental Control Hub        │
                     │  ✅ Organizational Policies     │
@@ -28,7 +28,7 @@ AmnShield Ecosystem (3 Integrated Apps + Central Management)
     ┌────────────────────┐ ┌──────────────┐ ┌──────────────┐
     │   AmnShield App   │ │  AmnShield  │ │  AmnShield  │
     │  (Main Protection) │ │   NetBlock   │ │   Guardian   │
-    │ com.alhaq.         │ │ org.alhaq.   │ │   (Optional  │
+    │ com.alhaq.         │ │ com.alhaq.   │ │   (Optional  │
     │ AmnShield         │ │ AmnShield.  │ │    Central   │
     │                    │ │ netblock     │ │   Hub)       │
     │ ✅ Published       │ │              │ │              │

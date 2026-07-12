@@ -5,7 +5,7 @@ Building the AmnShield Guardian ecosystem based on Optional Federation Architect
 
 ## Project Architecture
 ```
-org.alhaq.AmnShield.guardian/
+com.alhaq.amnshield.guardian/
 ├── BlockerApplication.kt           # @HiltAndroidApp; notification channels
 ├── MainActivity.kt                 # Compose entry point; navigation scaffold
 ├── auth/                           # NEW: Authentication module

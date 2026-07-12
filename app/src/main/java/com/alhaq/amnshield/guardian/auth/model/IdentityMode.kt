@@ -1,7 +1,7 @@
 ﻿package com.alhaq.amnshield.guardian.auth.model
 
 /**
- * Represents the three identity modes supported by DeenShield Guardian.
+ * Represents the three identity modes supported by AmnShield Guardian.
  * Users choose during first launch. All modes work independently.
  *
  * Islamic principle: Consent (Rida) - Users choose their preferred privacy/convenience level.

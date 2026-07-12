@@ -68,7 +68,7 @@ if ($InstallOnDevice) {
   }
 
   # Proceed with install once device is authorized
-  $pkg = 'org.alhaq.deenshield.guardian.debug'
+  $pkg = 'com.alhaq.amnshield.guardian.debug'
   $installOutput = & $adb install -r -d $apk.FullName 2>&1
   if ($LASTEXITCODE -ne 0) {
     if ($installOutput -match 'INSTALL_FAILED_UPDATE_INCOMPATIBLE') {

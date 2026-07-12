@@ -24,8 +24,8 @@ import androidx.navigation.NavController
 import com.alhaq.amnshield.guardian.viewmodel.BlockViewModel
 
 /**
- * Home Screen - Main dashboard for DeenShield Guardian
- * Styled consistently with DeenShield app
+ * Home Screen - Main dashboard for AmnShield Guardian
+ * Styled consistently with AmnShield app
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,7 +35,7 @@ fun HomeScreen(
 ) {
     val ctx = LocalContext.current
     val apiConnected by vm.connectionManager.isConnected.collectAsState()
-    val curboxPkg by vm.connectionManager.curboxPackage.collectAsState()
+    val amnShieldPkg by vm.connectionManager.amnShieldPackage.collectAsState()
     val isGranted = vm.isApiGranted
     
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -63,7 +63,7 @@ fun HomeScreen(
         
         ServiceStatusCard(
             title = "AmnShield Blocker Connection",
-            description = if (apiConnected) "Connected to Blocker API ($curboxPkg)" else "Not connected to Blocker API",
+            description = if (apiConnected) "Connected to Blocker API ($amnShieldPkg)" else "Not connected to Blocker API",
             isActive = apiConnected,
             icon = Icons.Default.Shield,
             onToggle = {
@@ -185,7 +185,7 @@ private fun WelcomeCard() {
             modifier = Modifier.padding(20.dp)
         ) {
             Text(
-                text = "Welcome to DeenShield Guardian",
+                text = "Welcome to AmnShield Guardian",
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
@@ -460,7 +460,7 @@ private fun IntegrationCard(navController: NavController) {
                     color = MaterialTheme.colorScheme.onTertiaryContainer
                 )
                 Text(
-                    text = "Connect with DeenShield ecosystem for centralized control",
+                    text = "Connect with AmnShield ecosystem for centralized control",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.8f)
                 )

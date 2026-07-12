@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">DeenShield Guardian</string>
-    <string name="accessibility_service_description">DeenShield Guardian is the central control hub for the DeenShield protection ecosystem by Alhaq Initiative. Manages parental controls, family protection, and organizational security.</string>
+    <string name="app_name">AmnShield Guardian</string>
+    <string name="accessibility_service_description">AmnShield Guardian is the central control hub for the AmnShield protection ecosystem by Al-Haq Studio. Manages parental controls, family protection, and organizational security.</string>
     
-    <!-- DeenShield Access (NetBlock) integration strings -->
+    <!-- AmnShield Access (NetBlock) integration strings -->
     <string name="access_wifi_blocked">Block WiFi</string>
     <string name="access_mobile_blocked">Block Mobile</string>
     <string name="access_allow_wifi_screen_on">Allow WiFi when screen on</string>
     <string name="access_allow_mobile_screen_on">Allow Mobile when screen on</string>
     <string name="access_block_when_roaming">Block when roaming</string>
     <string name="access_lockdown">Lockdown (block all)</string>
-    <string name="access_per_app_control">DeenShield NetBlock - Per-App Internet Control</string>
+    <string name="access_per_app_control">AmnShield NetBlock - Per-App Internet Control</string>
     <string name="access_search_apps">Search apps</string>
     <string name="access_show_system_apps">Show system apps</string>
     
     <!-- Ecosystem descriptions -->
-    <string name="guardian_description">Central hub for managing DeenShield protection across your family and organization</string>
+    <string name="guardian_description">Central hub for managing AmnShield protection across your family and organization</string>
     <string name="deenshield_main_description">Compulsory blocker with content filtering, image blur, and comprehensive protection</string>
     <string name="netblock_description">Internet and WiFi access controller for per-app blocking</string>
 </resources>

@@ -114,7 +114,7 @@ fun AppBlocksScreen(vm: BlockViewModel) {
     ) {
         item {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text("DeenShield Access - Per-App Control", style = MaterialTheme.typography.titleMedium)
+                Text("AmnShield Access - Per-App Control", style = MaterialTheme.typography.titleMedium)
                 OutlinedTextField(
                     value = search,
                     onValueChange = { search = it },
@@ -285,7 +285,7 @@ private fun AppRuleCard(rule: com.alhaq.amnshield.guardian.model.AppRule, onUpda
 private fun ServiceControls(vm: BlockViewModel) {
     val ctx = LocalContext.current
     val apiConnected by vm.connectionManager.isConnected.collectAsState()
-    val curboxPkg by vm.connectionManager.curboxPackage.collectAsState()
+    val amnShieldPkg by vm.connectionManager.amnShieldPackage.collectAsState()
     val isGranted = vm.isApiGranted
 
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -315,7 +315,7 @@ private fun ServiceControls(vm: BlockViewModel) {
                     Column(modifier = Modifier.weight(1f)) {
                         Text("AmnShield Blocker Connection", style = MaterialTheme.typography.titleSmall)
                         Text(
-                            if (apiConnected) "Connected to Blocker API ($curboxPkg)" else "Not connected to Blocker API",
+                            if (apiConnected) "Connected to Blocker API ($amnShieldPkg)" else "Not connected to Blocker API",
                             style = MaterialTheme.typography.bodySmall,
                             color = if (apiConnected) 
                                 MaterialTheme.colorScheme.onPrimaryContainer 

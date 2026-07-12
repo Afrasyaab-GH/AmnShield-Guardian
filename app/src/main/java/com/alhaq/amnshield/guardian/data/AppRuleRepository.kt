@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 import java.time.Instant
 
 /**
- * Manages per-app WiFi/internet blocking rules for DeenShield Access integration.
+ * Manages per-app WiFi/internet blocking rules for AmnShield Access integration.
  * Provides loading, saving, and querying of app-level rules.
  */
 object AppRuleRepository {

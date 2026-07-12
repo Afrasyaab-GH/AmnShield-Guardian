@@ -4,7 +4,7 @@ import java.time.Instant
 
 /**
  * Per-app WiFi and mobile internet blocking rule.
- * Mirrors DeenShield AppControl/DeenShield Access Rule model for per-app control.
+ * Mirrors AmnShield AppControl/AmnShield Access Rule model for per-app control.
  */
 data class AppRule(
     val uid: Int,

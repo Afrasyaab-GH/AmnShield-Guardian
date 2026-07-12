@@ -1,6 +1,6 @@
-# Quick Build and Install Script for DeenShield
+# Quick Build and Install Script for AmnShield
 
-Write-Host "DeenShield Build & Install Script" -ForegroundColor Cyan
+Write-Host "AmnShield Build & Install Script" -ForegroundColor Cyan
 Write-Host "=================================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -48,7 +48,7 @@ Write-Host ""
 Write-Host "Success! App installed." -ForegroundColor Green
 Write-Host ""
 Write-Host "Launching app..." -ForegroundColor Yellow
-& $ADB shell monkey -p org.alhaq.deenshield.guardian.debug 1
+& $ADB shell monkey -p com.alhaq.amnshield.guardian.debug 1
 
 Write-Host ""
 Write-Host "Done! Check your device." -ForegroundColor Green

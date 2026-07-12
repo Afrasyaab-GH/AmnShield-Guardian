@@ -1,11 +1,11 @@
-package org.alhaq.deenshield.guardian.auth.local
+package com.alhaq.amnshield.guardian.auth.local
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import org.alhaq.deenshield.guardian.auth.model.CapabilityToken
+import com.alhaq.amnshield.guardian.auth.model.CapabilityToken
 import java.util.Base64
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator

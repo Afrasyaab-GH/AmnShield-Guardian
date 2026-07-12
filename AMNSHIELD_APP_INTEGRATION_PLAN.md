@@ -22,7 +22,7 @@ AmnShield Ecosystem (3 Independent Apps)
 
 ┌─────────────────────────────────────────────────────────────────┐
 │                   AmnShield Guardian (Central Hub)             │
-│                   org.alhaq.AmnShield.guardian                 │
+│                   com.alhaq.amnshield.guardian                 │
 │                                                                  │
 │  ✅ Parental control interface                                  │
 │  ✅ Organizational policy management                            │
@@ -43,7 +43,7 @@ AmnShield Ecosystem (3 Independent Apps)
         │   Blocker)       │   │ (Network         │
         │                  │   │  Controller)     │
         │ com.alhaq.       │   │                  │
-        │ AmnShield       │   │ org.alhaq.       │
+        │ AmnShield       │   │ com.alhaq.       │
         │                  │   │ AmnShield.      │
         │ ✅ Published on  │   │ netblock         │
         │   PlayStore      │   │                  │

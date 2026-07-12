@@ -62,7 +62,7 @@ object CommonCapabilities {
     val MANAGE_APP_ACCESS = GuardianCapability(
         id = "manage_app_access",
         displayName = "App Access Management",
-        description = "Allow DeenShield Guardian to block or allow internet access for specific apps",
+        description = "Allow AmnShield Guardian to block or allow internet access for specific apps",
         detailedDescription = "Guardian will be able to see which apps you have configured and modify their internet access permissions. Access happens on-demand when you make changes in Guardian.",
         scope = CapabilityScope.APP_BLOCKING,
         dataAccessed = listOf("app_ids", "blocking_status"),
@@ -72,7 +72,7 @@ object CommonCapabilities {
     val MANAGE_SCHEDULES = GuardianCapability(
         id = "manage_schedules",
         displayName = "Schedule Management",
-        description = "Allow DeenShield Guardian to create and modify blocking schedules",
+        description = "Allow AmnShield Guardian to create and modify blocking schedules",
         detailedDescription = "Guardian will be able to set time-based rules for when blocks should be enforced. For example, blocking during school hours or prayer times.",
         scope = CapabilityScope.SCHEDULE_MANAGEMENT,
         dataAccessed = listOf("schedules", "time_settings"),
@@ -82,7 +82,7 @@ object CommonCapabilities {
     val MANAGE_CONTENT_FILTERS = GuardianCapability(
         id = "manage_content_filters",
         displayName = "Content Filter Configuration",
-        description = "Allow DeenShield Guardian to configure content filtering keywords and rules",
+        description = "Allow AmnShield Guardian to configure content filtering keywords and rules",
         detailedDescription = "Guardian can add or remove keywords and domains to be filtered. This includes harmful websites and inappropriate keywords based on Islamic values.",
         scope = CapabilityScope.CONTENT_FILTERING,
         dataAccessed = listOf("block_list", "keywords"),
@@ -92,7 +92,7 @@ object CommonCapabilities {
     val MANAGE_TIME_LIMITS = GuardianCapability(
         id = "manage_time_limits",
         displayName = "Productivity Time Limits",
-        description = "Allow DeenShield Guardian to set daily or hourly usage limits",
+        description = "Allow AmnShield Guardian to set daily or hourly usage limits",
         detailedDescription = "Guardian can configure how long apps or internet access is allowed per day/hour. Useful for protecting study time or preventing excessive screen time.",
         scope = CapabilityScope.PRODUCTIVITY_LIMITS,
         dataAccessed = listOf("time_settings", "usage_stats"),
@@ -102,7 +102,7 @@ object CommonCapabilities {
     val VIEW_REPORTS = GuardianCapability(
         id = "view_reports",
         displayName = "View Activity Reports",
-        description = "Allow DeenShield Guardian to view usage reports and blocked content statistics",
+        description = "Allow AmnShield Guardian to view usage reports and blocked content statistics",
         detailedDescription = "Guardian can see which apps were blocked, how many times, and when. No data is sent outside the device. All reports are local-only.",
         scope = CapabilityScope.REPORTING_ANALYTICS,
         dataAccessed = listOf("block_stats", "usage_history"),
@@ -112,7 +112,7 @@ object CommonCapabilities {
     val SYNC_CONFIGURATION = GuardianCapability(
         id = "sync_configuration",
         displayName = "Cloud Configuration Sync",
-        description = "Allow DeenShield Guardian to sync your settings across devices",
+        description = "Allow AmnShield Guardian to sync your settings across devices",
         detailedDescription = "Guardian can back up and sync your block lists, schedules, and settings to the cloud (encrypted end-to-end). Requires email account.",
         scope = CapabilityScope.CONFIGURATION_SYNC,
         dataAccessed = listOf("all_settings", "block_lists"),

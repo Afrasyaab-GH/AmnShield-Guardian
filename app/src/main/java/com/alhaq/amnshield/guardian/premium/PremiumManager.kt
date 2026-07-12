@@ -11,7 +11,7 @@ import javax.inject.Singleton
  * 
  * Compassionate Access Program:
  * - Trust-based system for users in financial need
- * - 1-year free access to all DeenShield ecosystem features
+ * - 1-year free access to all AmnShield ecosystem features
  * - No payment required, no verification needed
  * - Based on Islamic principle of Rahmah (Mercy)
  */

@@ -88,7 +88,7 @@ fun GuardianApp(vm: BlockViewModel = hiltViewModel()) {
                 CenterAlignedTopAppBar(
                     title = { 
                         Text(
-                            "DeenShield Guardian",
+                            "AmnShield Guardian",
                             fontWeight = FontWeight.Bold
                         ) 
                     },
@@ -228,7 +228,7 @@ private fun DrawerContent(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "DeenShield Guardian",
+                    text = "AmnShield Guardian",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
@@ -321,7 +321,7 @@ private fun DrawerContent(
         
         // Footer
         Text(
-            text = "DeenShield Guardian v2.0.0",
+            text = "AmnShield Guardian v2.0.0",
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(16.dp)
@@ -474,7 +474,7 @@ fun PremiumScreen(navController: NavHostController) {
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    "Get access to all premium features across the DeenShield ecosystem.",
+                    "Get access to all premium features across the AmnShield ecosystem.",
                     style = MaterialTheme.typography.bodyMedium
                 )
             }

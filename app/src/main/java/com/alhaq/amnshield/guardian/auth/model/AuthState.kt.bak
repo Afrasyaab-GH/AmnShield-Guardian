@@ -1,4 +1,4 @@
-package org.alhaq.deenshield.guardian.auth.model
+package com.alhaq.amnshield.guardian.auth.model
 
 /**
  * Represents the current authentication state of the user.

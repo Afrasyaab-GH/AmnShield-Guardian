@@ -44,7 +44,7 @@ data class GuardianCapabilityEntity(
 ) {
     companion object {
         /**
-         * Standard capability IDs for DeenShield App
+         * Standard capability IDs for AmnShield App
          */
         const val MANAGE_APP_BLOCKING = "MANAGE_DEENSHIELD_APP_BLOCKING"
         const val MANAGE_KEYWORDS = "MANAGE_DEENSHIELD_KEYWORDS"

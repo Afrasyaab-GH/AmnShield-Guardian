@@ -383,12 +383,12 @@ private fun GuardianHubCard() {
             ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = "DeenShield Ecosystem",
+                        text = "AmnShield Ecosystem",
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Medium
                     )
                     Text(
-                        text = "Connect with DeenShield App and NetBlock for unified protection",
+                        text = "Connect with AmnShield App and NetBlock for unified protection",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -402,10 +402,10 @@ private fun GuardianHubCard() {
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 OutlinedButton(
-                    onClick = { /* Connect DeenShield App */ },
+                    onClick = { /* Connect AmnShield App */ },
                     modifier = Modifier.weight(1f)
                 ) {
-                    Text("DeenShield App", style = MaterialTheme.typography.labelSmall)
+                    Text("AmnShield App", style = MaterialTheme.typography.labelSmall)
                 }
                 
                 OutlinedButton(
@@ -449,7 +449,7 @@ private fun SupportCard() {
             ProfileMenuItem(
                 icon = Icons.Default.Info,
                 title = "About",
-                subtitle = "DeenShield Guardian v2.0.0",
+                subtitle = "AmnShield Guardian v2.0.0",
                 onClick = {}
             )
         }

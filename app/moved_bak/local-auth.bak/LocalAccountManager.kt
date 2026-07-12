@@ -1,4 +1,4 @@
-package org.alhaq.deenshield.guardian.auth.local
+package com.alhaq.amnshield.guardian.auth.local
 
 import android.content.Context
 import android.content.SharedPreferences

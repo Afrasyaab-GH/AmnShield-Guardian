@@ -6,8 +6,8 @@ import com.deenshield.blocker.auth.AuthState
 import com.deenshield.blocker.auth.IdentityMode
 import com.deenshield.blocker.auth.data.GuardianDatabase
 import com.deenshield.blocker.auth.data.LocalAccount
-import org.alhaq.deenshield.guardian.auth.local.LocalAccountManager
-import org.alhaq.deenshield.guardian.auth.local.TokenStorage
+import com.alhaq.amnshield.guardian.auth.local.LocalAccountManager
+import com.alhaq.amnshield.guardian.auth.local.TokenStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

@@ -63,7 +63,7 @@ fun IdentityModeScreen(
         ) {
             // Header
             Text(
-                text = "Select how you want to identify yourself in DeenShield Guardian",
+                text = "Select how you want to identify yourself in AmnShield Guardian",
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,

@@ -11,7 +11,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import neth.iecal.curbox.api.ICurboxApi
+import com.alhaq.amnshield.api.IAmnShieldApi
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,27 +19,27 @@ import javax.inject.Singleton
 class AmnShieldConnectionManager @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
-    private val actionBind = "neth.iecal.curbox.api.BIND"
-    private val actionRequestPermission = "neth.iecal.curbox.api.REQUEST_PERMISSION"
+    private val actionBind = "com.alhaq.amnshield.api.BIND"
+    private val actionRequestPermission = "com.alhaq.amnshield.api.REQUEST_PERMISSION"
 
-    private val _api = MutableStateFlow<ICurboxApi?>(null)
-    val api: StateFlow<ICurboxApi?> = _api.asStateFlow()
+    private val _api = MutableStateFlow<IAmnShieldApi?>(null)
+    val api: StateFlow<IAmnShieldApi?> = _api.asStateFlow()
 
     private val _isConnected = MutableStateFlow(false)
     val isConnected: StateFlow<Boolean> = _isConnected.asStateFlow()
 
-    private val _curboxPackage = MutableStateFlow<String?>(null)
-    val curboxPackage: StateFlow<String?> = _curboxPackage.asStateFlow()
+    private val _amnShieldPackage = MutableStateFlow<String?>(null)
+    val amnShieldPackage: StateFlow<String?> = _amnShieldPackage.asStateFlow()
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            Log.d(TAG, "Curbox API Service Connected")
-            _api.value = ICurboxApi.Stub.asInterface(service)
+            Log.d(TAG, "AmnShield API Service Connected")
+            _api.value = IAmnShieldApi.Stub.asInterface(service)
             _isConnected.value = true
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
-            Log.d(TAG, "Curbox API Service Disconnected")
+            Log.d(TAG, "AmnShield API Service Disconnected")
             _api.value = null
             _isConnected.value = false
         }
@@ -49,31 +49,31 @@ class AmnShieldConnectionManager @Inject constructor(
         resolveAndBind()
     }
 
-    fun resolveCurboxPackage(): String? {
-        val currentPackage = _curboxPackage.value
+    fun resolveAmnShieldPackage(): String? {
+        val currentPackage = _amnShieldPackage.value
         if (currentPackage != null) return currentPackage
 
         val info = context.packageManager.resolveService(Intent(actionBind), 0)
         val resolvedPackage = info?.serviceInfo?.packageName
         if (resolvedPackage != null) {
-            _curboxPackage.value = resolvedPackage
-            Log.d(TAG, "Resolved Curbox package: $resolvedPackage")
+            _amnShieldPackage.value = resolvedPackage
+            Log.d(TAG, "Resolved AmnShield package: $resolvedPackage")
         } else {
-            Log.w(TAG, "Failed to resolve Curbox API package")
+            Log.w(TAG, "Failed to resolve AmnShield API package")
         }
         return resolvedPackage
     }
 
     fun resolveAndBind(): Boolean {
         if (_isConnected.value) return true
-        val pkg = resolveCurboxPackage() ?: return false
+        val pkg = resolveAmnShieldPackage() ?: return false
         val intent = Intent(actionBind).setPackage(pkg)
         return try {
             val success = context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
             Log.d(TAG, "bindService requested for $pkg, success=$success")
             success
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to bind to Curbox service", e)
+            Log.e(TAG, "Failed to bind to AmnShield service", e)
             false
         }
     }
@@ -141,7 +141,7 @@ class AmnShieldConnectionManager @Inject constructor(
     }
 
     fun getPermissionIntent(): Intent? {
-        val pkg = resolveCurboxPackage() ?: return null
+        val pkg = resolveAmnShieldPackage() ?: return null
         return Intent(actionRequestPermission).setPackage(pkg)
     }
 

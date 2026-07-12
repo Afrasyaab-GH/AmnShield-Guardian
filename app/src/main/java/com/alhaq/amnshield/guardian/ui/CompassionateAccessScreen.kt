@@ -211,9 +211,9 @@ fun CompassionateAccessScreen(
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                     
-                    BenefitItem("1 Year Free Access to ALL DeenShield platforms")
-                    BenefitItem("DeenShield Guardian Premium Features")
-                    BenefitItem("DeenShield App Premium Features")
+                    BenefitItem("1 Year Free Access to ALL AmnShield platforms")
+                    BenefitItem("AmnShield Guardian Premium Features")
+                    BenefitItem("AmnShield App Premium Features")
                     BenefitItem("NetBlock Premium Features")
                     BenefitItem("Priority Support")
                 }
@@ -326,7 +326,7 @@ private fun AccessGrantedScreen(
         )
         
         Text(
-            text = "You now have 1 year of free access to all DeenShield premium features across all platforms.",
+            text = "You now have 1 year of free access to all AmnShield premium features across all platforms.",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center

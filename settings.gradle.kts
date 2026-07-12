@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "DeenShield-Blocker-Mobile-App"
+rootProject.name = "AmnShield-Blocker-Mobile-App"
 include(":app")

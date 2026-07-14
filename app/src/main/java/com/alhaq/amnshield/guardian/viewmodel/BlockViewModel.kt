@@ -161,6 +161,9 @@ class BlockViewModel @Inject constructor(
                 connectionManager.execute("SET_REEL_BLOCKER", Bundle().apply {
                     putBoolean("enable", blockSocialMedia)
                 })
+                connectionManager.execute("SET_SOCIAL_MEDIA_BLOCKER", Bundle().apply {
+                    putBoolean("enable", blockSocialMedia)
+                })
                 // Update DND/Global blocker state
                 connectionManager.execute("SET_DND", Bundle().apply {
                     putBoolean("enable", globalEnabled)

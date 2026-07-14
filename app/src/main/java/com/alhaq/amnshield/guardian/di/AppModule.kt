@@ -1,9 +1,11 @@
-﻿package com.alhaq.amnshield.guardian.di
+package com.alhaq.amnshield.guardian.di
 
 import android.content.Context
 import com.alhaq.amnshield.guardian.auth.data.GuardianDatabase
 import com.alhaq.amnshield.guardian.auth.local.LocalAccountManager
 import com.alhaq.amnshield.guardian.auth.local.TokenStorage
+import com.alhaq.amnshield.guardian.network.ContentFilter
+import com.alhaq.amnshield.guardian.network.PacketParser
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,6 +20,7 @@ import javax.inject.Singleton
  * Provides singleton instances for:
  * - Authentication (LocalAccountManager, TokenStorage)
  * - Database (GuardianDatabase)
+ * - Network/blocking providers (ContentFilter, PacketParser)
  * 
  * All provided instances are application-scoped singletons.
  * 
@@ -25,8 +28,6 @@ import javax.inject.Singleton
  * - Single instances prevent state duplication
  * - Centralized dependency management
  * - Clear lifecycle management
- * 
- * Note: Network/blocking providers (ContentFilter, PacketParser) will be added in Phase 2+
  */
 @Module
 @InstallIn(SingletonComponent::class)
@@ -67,5 +68,13 @@ object AppModule {
     fun provideTokenStorage(@ApplicationContext context: Context): TokenStorage {
         return TokenStorage.getInstance(context)
     }
+
+    @Provides
+    @Singleton
+    fun provideContentFilter(): ContentFilter = ContentFilter()
+
+    @Provides
+    @Singleton
+    fun providePacketParser(): PacketParser = PacketParser()
 }
 

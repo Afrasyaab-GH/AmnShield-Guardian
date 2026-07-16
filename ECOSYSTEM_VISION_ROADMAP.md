@@ -1,5 +1,8 @@
 # 🌍 AmnShield Ecosystem: Complete Vision & Integration Roadmap
 
+> ⚠️ **ARCHITECTURAL SHIFT NOTICE (July 2026):** The native Android **AmnShield Guardian** app component outlined in this roadmap has been **suspended/frozen** in favor of a centralized **Web Administration Console** (React/Next.js + Supabase). The local client-side IPC structure remains available in `AmnShield-Android` via `IAmnShieldApi`, but child-to-parent control synchronization will now occur securely over HTTPS REST APIs against the central database rather than native Android-to-Android IPC bindings.
+
+
 ## 📊 Ecosystem Overview
 
 **AmnShield** is a comprehensive **Islamic-values-aligned** digital wellbeing and protection ecosystem for the Muslim community and wider world.

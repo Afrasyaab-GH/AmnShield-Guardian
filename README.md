@@ -1,10 +1,9 @@
-# AmnGuard (AmnShield Guardian)
+# AmnGuard (AmnShield Guardian) - Native Android App [SUSPENDED]
 
-> 🛡️ **Centralized management, family protection, and policy synchronization for the Amn Protection Ecosystem.**
-
-**AmnGuard** (application ID `com.alhaq.amnshield.guardian`) is the administrative hub of the Amn Digital Wellbeing Suite. Developed by **Al-Haq Studio**, it allows parents, organization administrators, or individuals to define, sync, and secure content filters, app limits, and category blocklists across devices running **AmnShield** and other paired ecosystem applications.
+> ⚠️ **ARCHITECTURAL TRANSITION NOTICE:** Development on this native Android Guardian application has been **suspended/frozen**. The ecosystem has transitioned to a centralized **Web Administration Console** (Next.js + Supabase) for remote parental and organizational management. This ensures cross-platform support (e.g. managing child devices from iOS/desktop) and complies with Play Store's policies on administrative system control. The security and encryption code here is preserved as a local reference library.
 
 ---
+
 
 ## 🌟 Key Features
 

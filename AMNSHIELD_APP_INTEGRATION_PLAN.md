@@ -1,5 +1,8 @@
 # AmnShield Ecosystem Integration Plan
 
+> ⚠️ **ARCHITECTURAL SHIFT NOTICE (July 2026):** Development on the native Android **AmnShield Guardian** app component of this integration plan has been **suspended/frozen**. Remote parental controls and group policy management have transitioned to a centralized **Web Administration Console** (React/Next.js + Supabase). The local client-side API (`IAmnShieldApi`) is retained in `AmnShield-Android` for local device extensibility, but remote sync will occur securely via HTTPS REST endpoints instead of native Android inter-app IPC.
+
+
 ## 🎯 Executive Summary
 
 **Objective:** Integrate the existing **AmnShield App** (main protection app, PlayStore published) into the **AmnShield Guardian** ecosystem while maintaining complete standalone functionality.
